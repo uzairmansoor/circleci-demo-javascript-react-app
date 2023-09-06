@@ -43,7 +43,7 @@ jobs:
             # Login to ecr and docker login
             aws_login=`aws ecr get-login --no-include-email --region eu-west-1`
             eval $aws_login
-            aws s3 sync build/ s3://test-another-app
+            aws s3 sync build/ s3://devops-circleci-test-app-dev-us-east-1-007756798683
   deploy-production:
     docker:
       - image: docker:17.05.0-ce-git
@@ -61,7 +61,7 @@ jobs:
             # Login to ecr and docker login
             aws_login=`aws ecr get-login --no-include-email --region eu-west-1`
             eval $aws_login
-            aws s3 sync build/ s3://production-another-app
+            aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
   version: 2
