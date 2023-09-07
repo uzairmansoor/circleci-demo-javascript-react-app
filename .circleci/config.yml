@@ -9,9 +9,10 @@ jobs:
     executor: aws-cli/default
     steps:
       - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_ACCESS_SECRET
-          aws-region: AWS_REGION_NAME
+          aws-access-key-id: $AWS_ACCESS_KEY
+          aws-secret-access-key: $AWS_ACCESS_SECRET
+          aws-region: $AWS_REGION_NAME
+  
   build:
     docker:
       - image: cimg/node:20.6.0 #circleci/node:8.9.1
@@ -61,7 +62,6 @@ jobs:
       - run:
           #Get all pre-requisites
           command: |
-            aws configure
             aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
@@ -76,6 +76,7 @@ workflows:
       - deploy-test:
           requires:
             - build
+            - aws-cli-cred-setup
           filters:
             branches:
               only:
@@ -83,6 +84,7 @@ workflows:
       - deploy-production:
           requires:
             - build
+            - aws-cli-cred-setup
           filters:
             branches:
               only:
