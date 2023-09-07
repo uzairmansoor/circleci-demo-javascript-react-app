@@ -5,6 +5,13 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.6
 
 jobs:
+  aws-cli-cred-setup:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_ACCESS_SECRET
+          aws-region: AWS_REGION_NAME
   build:
     docker:
       - image: cimg/node:20.6.0 #circleci/node:8.9.1
@@ -30,13 +37,7 @@ jobs:
             - node_modules
             - src
             - build
-  aws-cli-cred-setup:
-    executor: aws-cli/default
-    steps:
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_ACCESS_SECRET
-          aws-region: AWS_REGION_NAME
+  
           # output-format: OUTPUT_FORMAT
 
   deploy-test:
