@@ -55,7 +55,7 @@ jobs:
           #Get all pre-requisites
           command: |
             apk add --no-cache \
-              py-pip=23.2.1-r1
+              py3-pip
             pip install \
               awscli==1.14.37
             # Login to ecr and docker login
