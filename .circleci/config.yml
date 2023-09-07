@@ -1,5 +1,9 @@
 # Javascript Node CircleCI 2.0 configuration file
 version: 2
+
+orbs:
+  aws-cli: circleci/aws-cli@2.0.6
+
 jobs:
   build:
     docker:
@@ -26,6 +30,15 @@ jobs:
             - node_modules
             - src
             - build
+  aws-cli-cred-setup:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_ACCESS_SECRET
+          aws-region: AWS_REGION_NAME
+          output-format: OUTPUT_FORMAT
+
   deploy-test:
     docker:
       - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
@@ -42,18 +55,20 @@ jobs:
     docker:
       - image: docker:17.05.0-ce-git
     steps:
-      - setup_remote_docker
       - attach_workspace:
           at: ./
       - run:
           #Get all pre-requisites
           command: |
+            aws configure
             aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
   version: 2
   build-test-and-deploy:
     jobs:
+      - aws-cli-cred-setup:
+          context: aws
       - build
       - deploy-test:
           requires:
