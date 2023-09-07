@@ -60,8 +60,8 @@ jobs:
             aws configure
           args:
             stdin: |
-              AWS Access Key ID: AKIAQDTSXLLNYJ2PN53D
-              gzkBiR/sPDTLF+V901Z5MYjok1K1ZFb1kvQEmy2B
+              AWS Access Key ID:
+              
               us-east-1
               json
           # command: |
