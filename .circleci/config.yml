@@ -41,7 +41,7 @@ jobs:
             pip install \
               awscli==1.14.37
             # Login to ecr and docker login
-            aws_login=`aws ecr get-login --no-include-email --region us-east-1`
+            aws_login=`aws ecr get-login --no-include-email --region eu-west-1`
             eval $aws_login
             aws s3 sync build/ s3://devops-circleci-test-app-dev-us-east-1-007756798683
   deploy-production:
@@ -58,9 +58,6 @@ jobs:
               py-pip=9.0.0-r1
             pip install \
               awscli==1.14.37
-            # Login to ecr and docker login
-            aws_login=`aws ecr get-login --no-include-email --region us-east-1`
-            eval $aws_login
             aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
