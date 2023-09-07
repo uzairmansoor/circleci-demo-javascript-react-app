@@ -71,10 +71,10 @@ jobs:
 
 workflows:
   version: 2
-  aws-cli:
-    jobs:
-      - aws-cli-cred-setup:
-          context: aws
+  # aws-cli:
+  #   jobs:
+  #     - aws-cli-cred-setup:
+  #         context: aws
   build-test-and-deploy:
     jobs:
       - build
