@@ -28,7 +28,7 @@ jobs:
             - build
   deploy-test:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
     steps:
       - setup_remote_docker
       - attach_workspace:
@@ -36,13 +36,13 @@ jobs:
       - run:
           #Get all pre-requisites
           command: |
-            apk add --no-cache \
-              py-pip=9.0.0-r1
-            pip install \
-              awscli==1.14.37
-            # Login to ecr and docker login
-            aws_login=`aws ecr get-login --no-include-email --region eu-west-1`
-            eval $aws_login
+# apk add --no-cache \
+#   py-pip=9.0.0-r1
+# pip install \
+#   awscli==1.14.37
+# # Login to ecr and docker login
+# aws_login=`aws ecr get-login --no-include-email --region eu-west-1`
+# eval $aws_login
             aws s3 sync build/ s3://devops-circleci-test-app-dev-us-east-1-007756798683
   deploy-production:
     docker:
