@@ -3,7 +3,7 @@ version: 2.1
 
 orbs:
   # aws-cli: circleci/aws-cli@2.0.6
-  aws-s3: circleci/aws-s3@3.1.1
+  aws-s3: circleci/aws-s3@4.0.0
 
 jobs:
   # aws-cli-cred-setup:
@@ -61,6 +61,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY
+          aws_secret_access_key: AWS_ACCESS_SECRET	
+          region: AWS_REGION_NAME
       - aws-s3/sync:
           from: build/
           to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683/'
