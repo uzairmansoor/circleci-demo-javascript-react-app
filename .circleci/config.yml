@@ -64,8 +64,8 @@ jobs:
               gzkBiR/sPDTLF+V901Z5MYjok1K1ZFb1kvQEmy2B
               us-east-1
               json
-          command: |
-            aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
+          # command: |
+          #   aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
   version: 2
