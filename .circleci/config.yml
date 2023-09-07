@@ -6,13 +6,6 @@ orbs:
   aws-s3: circleci/aws-s3@4.0.0
 
 jobs:
-  # aws-cli-cred-setup:
-  #   executor: aws-cli/default
-  #   steps:
-  #     - aws-cli/setup:
-  #         aws-access-key-id: $AWS_ACCESS_KEY
-  #         aws-secret-access-key: $AWS_ACCESS_SECRET
-  #         aws-region: $AWS_REGION_NAME
 
   build:
     docker:
@@ -39,21 +32,6 @@ jobs:
             - node_modules
             - src
             - build
-
-  deploy-test:
-    docker:
-      - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
-    steps:
-      - setup_remote_docker
-      - attach_workspace:
-          at: ./
-      - aws-s3/sync:
-          from: build/
-          to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683/'
-      # - run:
-      #     #Get all pre-requisites
-      #     command: |
-      #       aws s3 sync build/ s3://devops-circleci-test-app-dev-us-east-1-007756798683
             
   deploy-production:
     docker:
@@ -68,27 +46,12 @@ jobs:
       - aws-s3/sync:
           from: build/
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
-      # - run:
-      #     #Get all pre-requisites
-      #     command: |
-      #       aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
   version: 2
-  # aws-cli:
-  #   jobs:
-  #     - aws-cli-cred-setup:
-  #         context: aws
   build-test-and-deploy:
     jobs:
       - build
-      - deploy-test:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - test
       - deploy-production:
           requires:
             - build
