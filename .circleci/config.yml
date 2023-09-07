@@ -57,6 +57,14 @@ jobs:
             apk add --no-cache python3 py3-pip
             pip3 install \
               awscli==1.14.37
+            aws configure
+          args:
+            stdin: |
+              AKIAQDTSXLLNYJ2PN53D
+              gzkBiR/sPDTLF+V901Z5MYjok1K1ZFb1kvQEmy2B
+              us-east-1
+              json
+          command: |
             aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683
 
 workflows:
