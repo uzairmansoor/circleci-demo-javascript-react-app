@@ -65,10 +65,12 @@ jobs:
 
 workflows:
   version: 2
-  build-test-and-deploy:
+  aws-cli:
     jobs:
       - aws-cli-cred-setup:
           context: aws
+  build-test-and-deploy:
+    jobs:
       - build
       - deploy-test:
           requires:
