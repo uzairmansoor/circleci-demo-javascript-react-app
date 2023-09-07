@@ -49,7 +49,7 @@ jobs:
           at: ./
       - aws-s3/sync:
           from: build/
-          to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683'
+          to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683/'
       # - run:
       #     #Get all pre-requisites
       #     command: |
@@ -63,7 +63,7 @@ jobs:
           at: ./
       - aws-s3/sync:
           from: build/
-          to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683'
+          to: 's3://devops-circleci-test-app-dev-us-east-1-007756798683/'
       # - run:
       #     #Get all pre-requisites
       #     command: |
