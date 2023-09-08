@@ -60,7 +60,7 @@ jobs:
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
 workflows:
-  version: 2.1
+  version: 2
   build-and-deploy:
     jobs:
       - build
