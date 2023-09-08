@@ -50,7 +50,7 @@ jobs:
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
 
 workflows:
-  version: 2
+  version: 2.1
   build-and-deploy:
     jobs:
       - build
