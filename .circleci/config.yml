@@ -54,7 +54,7 @@ jobs:
     executor: email/default
     steps:
       - email/send:
-          to: uzair.mansoor@netsoltech.com
+          to: EMAIL_ID
           subject: "CircleCI Pipeline Completed"
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
@@ -73,10 +73,3 @@ workflows:
       - send-email:
           requires:
             - deploy-production
-
-      # - email/send:
-      #     body: Congratulations! Your circleci pipeline completed successfully.
-      #     subject: CirclecI build-and-deploy job completed
-      #     to: uzair.mansoor@netsoltech.com
-      #     requires:
-      #       - deploy-production
