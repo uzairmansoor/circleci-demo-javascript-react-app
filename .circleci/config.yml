@@ -44,6 +44,7 @@ jobs:
       - attach_workspace:
           at: ./
       - run: echo ${AWS_ACCESS_KEY_ID} >> AWS_ACCESS_KEY_ID
+      - run: echo AWS_ACCESS_KEY_ID
       - run: echo ${AWS_SECRET_ACCESS_KEY} >> AWS_SECRET_ACCESS_KEY
       - run: echo ${AWS_REGION_NAME} >> AWS_REGION_NAME
       - aws-cli/setup:
@@ -59,7 +60,7 @@ jobs:
     executor: email/default
     steps:
       - email/send:
-          to: uzair.mansoor@netsoltech.com #${EMAIL_ID}
+          to: ${EMAIL_ID}
           subject: "CircleCI Pipeline Completed"
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
       - run:
