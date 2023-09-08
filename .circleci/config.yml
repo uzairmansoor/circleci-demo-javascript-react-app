@@ -2,7 +2,7 @@
 version: 2.1
 
 orbs:
-  # aws-cli: circleci/aws-cli@4.0
+  aws-cli: circleci/aws-cli@4.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
   # mailer-orb: sudiptog81/mailer-orb@1.0.0
