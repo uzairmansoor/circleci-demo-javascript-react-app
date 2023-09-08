@@ -42,7 +42,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - run: echo $AWS_ACCESS_KEY
+      - run: echo $AWS_ACCESS_KEY_ID
 # - aws-cli/setup:
 #     aws_access_key_id: AWS_ACCESS_KEY
 #     region: AWS_REGION_NAME
