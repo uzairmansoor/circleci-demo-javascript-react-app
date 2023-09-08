@@ -66,9 +66,9 @@ jobs:
   send-email:
     executor: email/default
     steps:
-      - run: echo ${EMAIL_ID} >> EMAIL_ID
+      - run: echo ${email_id} >> email_id
       - email/send:
-          to: ${EMAIL_ID}
+          to: ${email_id}
           subject: "CircleCI Pipeline Completed"
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
