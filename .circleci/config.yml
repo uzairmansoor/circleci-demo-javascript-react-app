@@ -48,9 +48,9 @@ jobs:
       - run: echo ${AWS_REGION_NAME} >> AWS_REGION_NAME
       - run: aws --version
       - aws-cli/setup:
-          aws_access_key_id: ${AWS_ACCESS_KEY_ID}
-          aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
-          region: ${AWS_REGION_NAME}
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+          region: AWS_REGION_NAME
       # - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
       - aws-s3/sync:
           from: build/
