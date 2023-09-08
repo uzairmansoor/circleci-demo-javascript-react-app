@@ -4,9 +4,10 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@4.0
   aws-s3: circleci/aws-s3@4.0.0
-  email: circleci/email@1.2.3 #cinotify/email@1.2.1
+  # email: circleci/email@1.2.3 #cinotify/email@1.2.1
   # mailer-orb: sudiptog81/mailer-orb@1.0.0
 
+working_directory: ~/static_website_deployment
 jobs:
 
   build:
@@ -28,7 +29,7 @@ jobs:
           name: Build the application
           command: npm run build
       - persist_to_workspace:
-          root: ./
+          root: ~/static_website_deployment
           paths:
             - package.json
             - node_modules
@@ -40,23 +41,23 @@ jobs:
       - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
     steps:
       - attach_workspace:
-          at: ./
+          at: ~/static_website_deployment
       - aws-cli/setup:
           aws_access_key_id: AWS_ACCESS_KEY
           aws_secret_access_key: AWS_ACCESS_SECRET	
           region: AWS_REGION_NAME
       - aws-s3/sync:
-          from: build/
+          from: ~/static_website_deployment/build/
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
   
-  send-email:
-    executor: email/default
-    steps:
-      - email/notify:
-          to:
-            - uzair.mansoor@netsoltech.com
-          subject: "CircleCI Pipeline Completed"
-          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+  # send-email:
+  #   executor: email/default
+  #   steps:
+  #     - email/notify:
+  #         to:
+  #           - uzair.mansoor@netsoltech.com
+  #         subject: "CircleCI Pipeline Completed"
+  #         body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
 workflows:
   version: 2.1
@@ -70,9 +71,10 @@ workflows:
             branches:
               only:
                 - main
-      - send-email:
-          requires:
-            - deploy-production
+      # - send-email:
+      #     requires:
+      #       - deploy-production
+
       # - mailer-orb/mail:
       #     body: Congratulations! Your circleci pipeline completed successfully.
       #     subject: CirclecI build-and-deploy job completed
