@@ -50,14 +50,14 @@ jobs:
           from: build/
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
   
-  # send-email:
-  #   executor: email/default
-  #   steps:
-  #     - email/notify:
-  #         to:
-  #           - uzair.mansoor@netsoltech.com
-  #         subject: "CircleCI Pipeline Completed"
-  #         body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+  send-email:
+    executor: email/default
+    steps:
+      - email/notify:
+          to:
+            - uzair.mansoor@netsoltech.com
+          subject: "CircleCI Pipeline Completed"
+          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
 workflows:
   version: 2.1
@@ -71,9 +71,9 @@ workflows:
             branches:
               only:
                 - main
-      # - send-email:
-      #     requires:
-      #       - deploy-production
+      - send-email:
+          requires:
+            - deploy-production
 
       # - mailer-orb/mail:
       #     body: Congratulations! Your circleci pipeline completed successfully.
