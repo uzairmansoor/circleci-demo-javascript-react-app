@@ -42,10 +42,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      - aws-cli/setup:
-          aws_access_key_id: AWS_ACCESS_KEY
-          aws_secret_access_key: AWS_ACCESS_SECRET	
-          region: AWS_REGION_NAME
+      # - aws-cli/setup:
+      #     aws_access_key_id: AWS_ACCESS_KEY
+      #  aws_secret_access_key: AWS_ACCESS_SECRET	
+      #     region: AWS_REGION_NAME
       - aws-s3/sync:
           from: build/
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
@@ -54,9 +54,12 @@ jobs:
     executor: email/default
     steps:
       - email/send:
-          to: EMAIL_ID
+          to: $EMAIL_ID
           subject: "CircleCI Pipeline Completed"
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+      - run:
+          command: |
+            echo "EMAIL_ID" EMAIL_ID
 
 workflows:
   version: 2
@@ -64,6 +67,7 @@ workflows:
     jobs:
       - build
       - deploy-production:
+          context: circleci_variables
           requires:
             - build
           filters:
@@ -71,5 +75,6 @@ workflows:
               only:
                 - main
       - send-email:
+          context: circleci_variables
           requires:
             - deploy-production
