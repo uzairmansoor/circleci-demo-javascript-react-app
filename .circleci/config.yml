@@ -37,8 +37,9 @@ jobs:
             - build
             
   deploy-production:
-    docker:
-      - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
+    # docker:
+    #   - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
+    executor: aws-cli/default
     steps:
       - attach_workspace:
           at: ./
@@ -46,9 +47,9 @@ jobs:
       - run: echo ${AWS_SECRET_ACCESS_KEY}
       - run: aws --version
       - aws-cli/setup:
-          aws_access_key_id: AWS_ACCESS_KEY
-          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
-          region: AWS_REGION_NAME
+          aws_access_key_id: ${AWS_ACCESS_KEY}
+          aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+          region: ${AWS_REGION_NAME}
       # - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
       - aws-s3/sync:
           from: build/
