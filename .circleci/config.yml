@@ -53,7 +53,7 @@ jobs:
   send-email:
     executor: email/default
     steps:
-      - email/notify:
+      - email/send:
           to:
             - uzair.mansoor@netsoltech.com
           subject: "CircleCI Pipeline Completed"
