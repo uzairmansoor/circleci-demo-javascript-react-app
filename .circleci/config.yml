@@ -42,14 +42,14 @@ jobs:
     steps:
       - attach_workspace:
           at: ./
-      # - aws-cli/setup:
-      #     aws_access_key_id: AWS_ACCESS_KEY
-      #  aws_secret_access_key: AWS_ACCESS_SECRET	
-      #     region: AWS_REGION_NAME
-      - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
-      # - aws-s3/sync:
-      #     from: build/
-      #     to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
+      - run: echo $AWS_ACCESS_KEY
+# - aws-cli/setup:
+#     aws_access_key_id: AWS_ACCESS_KEY
+#     region: AWS_REGION_NAME
+# - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
+      - aws-s3/sync:
+          from: build/
+          to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
   
   send-email:
     executor: email/default
