@@ -26,7 +26,7 @@ jobs:
           name: Build the application
           command: npm run build
       - persist_to_workspace:
-          root: ./static_website_deployment
+          root: ./
           paths:
             - package.json
             - node_modules
@@ -38,18 +38,18 @@ jobs:
       - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
     steps:
       - attach_workspace:
-          at: ./static_website_deployment
+          at: ./
       - aws-cli/setup:
           aws_access_key_id: AWS_ACCESS_KEY
           aws_secret_access_key: AWS_ACCESS_SECRET	
           region: AWS_REGION_NAME
       - aws-s3/sync:
-          from: ./static_website_deployment/build/
+          from: build/
           to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
 
 workflows:
   version: 2
-  build-test-and-deploy:
+  build-and-deploy:
     jobs:
       - build
       - deploy-production:
