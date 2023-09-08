@@ -5,6 +5,7 @@ orbs:
   aws-cli: circleci/aws-cli@4.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
+  mailer-orb: sudiptog81/mailer-orb@1.0.0
 
 jobs:
 
@@ -60,9 +61,16 @@ workflows:
             branches:
               only:
                 - main
-      - email/send:
-          body: Congratulations! Your circleci pipeline completed successfully.
-          subject: CirclecI build-and-deploy job completed
-          to: uzair.mansoor@netsoltech.com
-          requires:
-            - deploy-production
+        - mailer-orb/mail:
+            body: Congratulations! Your circleci pipeline completed successfully.
+            subject: CirclecI build-and-deploy job completed
+            to: uzair.mansoor@netsoltech.com
+            requires:
+              - deploy-production
+
+      # - email/send:
+          # body: Congratulations! Your circleci pipeline completed successfully.
+          # subject: CirclecI build-and-deploy job completed
+          # to: uzair.mansoor@netsoltech.com
+          # requires:
+          #   - deploy-production
