@@ -41,7 +41,7 @@ jobs:
       - checkout
       - run: node --version
       - node/install-packages:
-          cache-path: node_modules
+          cache-path: /node_modules
       - run:
           command: npm run build
       - persist_to_workspace:
