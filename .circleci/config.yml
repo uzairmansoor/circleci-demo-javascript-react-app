@@ -40,8 +40,12 @@ jobs:
     steps:
       - checkout
       - run: node --version
-      - node/install-packages:
-          cache-path: /node_modules
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
       - run:
           command: npm run build
       - persist_to_workspace:
