@@ -37,6 +37,7 @@ jobs:
   #           - build
 
   build:
+    executor: node/default
     steps:
       - node/install:
           install-yarn: true
