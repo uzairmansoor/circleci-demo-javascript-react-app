@@ -78,10 +78,10 @@ workflows:
           context: aws_access_variables
           requires:
             - build
-          filters:
-            branches:
-              only:
-                - main
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
       - hold:
           type: approval
           requires:
@@ -91,10 +91,10 @@ workflows:
           requires:
             - deploy-test
             - hold
-          filters:
-            branches:
-              only:
-                - main
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
       - send_email:
           context: circleci_variables
           requires:
