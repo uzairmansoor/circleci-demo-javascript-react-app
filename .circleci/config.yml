@@ -41,7 +41,6 @@ jobs:
     steps:
       - run: node --version
       - node/install-packages:
-          cache-path: /node_modules
       - run: npm run build
       - persist_to_workspace:
           root: ./
