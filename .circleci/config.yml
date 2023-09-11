@@ -5,29 +5,47 @@ orbs:
   aws-cli: circleci/aws-cli@4.1.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
+  node: circleci/node@5.1.0
 
 jobs:
 
+  # build:
+  #   docker:
+  #     - image: cimg/node:20.6.0
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - restore_cache:
+  #         key: dependency-cache-{{ checksum "package.json" }}
+  #     - run:
+  #         name: Install dependencies
+  #         command: npm install
+  #     - save_cache:
+  #         key: dependency-cache-{{ checksum "package.json" }}
+  #         paths:
+  #           - node_modules
+  #     - run:
+  #         name: Build the application
+  #         command: npm run build
+  #     - persist_to_workspace:
+  #         root: ./
+  #         paths:
+  #           - package.json
+  #           - node_modules
+  #           - src
+  #           - build
+
   build:
-    docker:
-      - image: cimg/node:20.6.0
+    working_directory: ~/test-ansible-app
+    executor: node/default
     steps:
       - checkout
-      - setup_remote_docker
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      - run: node --version
+      - node/install-packages
       - run:
-          name: Install dependencies
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Build the application
           command: npm run build
       - persist_to_workspace:
-          root: ./
+          root: ~/test-ansible-app
           paths:
             - package.json
             - node_modules
