@@ -84,6 +84,6 @@ workflows:
           requires:
             - deploy-production
             filters:
-            branches:
-              only:
-                - main
+              branches:
+                only:
+                  - main
