@@ -7,10 +7,10 @@ orbs:
   email: cinotify/email@1.2.1
   node: circleci/node@5.1.0
 
-# working_directory: ~/static_website_deployment
 jobs:
 
   build:
+    working_directory: ~/static_website_deployment
     docker:
       - image: cimg/node:20.6.0 #circleci/node:8.9.1
     steps:
@@ -29,7 +29,7 @@ jobs:
           name: Build the application
           command: npm run build
       - persist_to_workspace:
-          root: ./
+          root: ~/static_website_deployment
           paths:
             - package.json
             - node_modules
@@ -41,7 +41,7 @@ jobs:
       - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
     steps:
       - attach_workspace:
-          at: ./
+          at: ~/static_website_deployment
       - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
   
   send_email:
