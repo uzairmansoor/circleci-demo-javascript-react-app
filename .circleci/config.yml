@@ -42,12 +42,12 @@ jobs:
       - run: node --version
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run:
-          command: npm run build
+      - run: npm run build
       - persist_to_workspace:
           root: ./
           paths:
