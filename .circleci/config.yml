@@ -10,24 +10,38 @@ orbs:
 # working_directory: ~/static_website_deployment
 jobs:
 
+  # build:
+  #   docker:
+  #     - image: cimg/node:20.6.0 #circleci/node:8.9.1
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - restore_cache:
+  #         key: dependency-cache-{{ checksum "package.json" }}
+  #     - run:
+  #         name: Install dependencies
+  #         command: npm install
+  #     - save_cache:
+  #         key: dependency-cache-{{ checksum "package.json" }}
+  #         paths:
+  #           - node_modules
+  #     - run:
+  #         name: Build the application
+  #         command: npm run build
+  #     - persist_to_workspace:
+  #         root: ./
+  #         paths:
+  #           - package.json
+  #           - node_modules
+  #           - src
+  #           - build
+
   build:
-    docker:
-      - image: cimg/node:20.6.0 #circleci/node:8.9.1
     steps:
-      - checkout
-      - setup_remote_docker
-      # - restore_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install dependencies
-          command: npm install
-      # - save_cache:
-      #     key: dependency-cache-{{ checksum "package.json" }}
-      #     paths:
-      #       - node_modules
-      - run:
-          name: Build the application
-          command: npm run build
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: npm run build
       - persist_to_workspace:
           root: ./
           paths:
