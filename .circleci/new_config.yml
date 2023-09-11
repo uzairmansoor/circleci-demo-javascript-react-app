@@ -50,33 +50,23 @@ jobs:
   #           - src
   #           - build
             
-  # deploy-production:
-  #   # docker:
-  #   #   - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
-  #   executor: aws-cli/default
-  #   steps:
-  #     - attach_workspace:
-  #         at: ./
-  #     - run: echo ${AWS_ACCESS_KEY_ID} >> AWS_ACCESS_KEY_ID
-  #     - run: echo ${AWS_ACCESS_KEY_ID}
-  #     - run: echo ${AWS_SECRET_ACCESS_KEY} >> AWS_SECRET_ACCESS_KEY
-  #     - run: echo ${AWS_REGION_NAME} >> AWS_REGION_NAME
-  #     - aws-cli/setup:
-  #         aws_access_key_id: AWS_ACCESS_KEY_ID
-  #         aws_secret_access_key: AWS_SECRET_ACCESS_KEY
-  #         region: AWS_REGION_NAME
-  #     # - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
-  #     - aws-s3/sync:
-  #         from: build/
-  #         to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
-  
   deploy-production:
-    docker:
-      - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
+    executor: aws-cli/default
     steps:
       - attach_workspace:
           at: ./
-      - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
+      # - run: echo ${AWS_ACCESS_KEY_ID} >> AWS_ACCESS_KEY_ID
+      # - run: echo ${AWS_ACCESS_KEY_ID}
+      # - run: echo ${AWS_SECRET_ACCESS_KEY} >> AWS_SECRET_ACCESS_KEY
+      # - run: echo ${AWS_REGION_NAME} >> AWS_REGION_NAME
+      - aws-cli/setup:
+          aws_access_key_id: AWS_ACCESS_KEY_ID
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
+          region: AWS_REGION_NAME
+      # - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
+      - aws-s3/sync:
+          from: build/
+          to: 's3://devops-circleci-prod-app-dev-us-east-1-007756798683/'
   
   send-email:
     executor: email/default
