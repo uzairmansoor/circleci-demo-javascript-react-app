@@ -9,7 +9,6 @@ orbs:
 jobs:
 
   build:
-    working_directory: ~/static_website_deployment
     docker:
       - image: cimg/node:20.6.0
     steps:
@@ -28,7 +27,7 @@ jobs:
           name: Build the application
           command: npm run build
       - persist_to_workspace:
-          root: ~/static_website_deployment
+          root: ./
           paths:
             - package.json
             - node_modules
@@ -39,26 +38,26 @@ jobs:
     executor: aws-cli/default
     steps:
       - attach_workspace:
-          at: ~/static_website_deployment
+          at: ./
       - aws-cli/setup:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
-          from: ~/static_website_deployment/build/
+          from: build/
           to: 's3://devops-circleci-app-test-us-east-1-007756798683/'
 
   deploy-production:
     executor: aws-cli/default
     steps:
       - attach_workspace:
-          at: ~/static_website_deployment
+          at: ./
       - aws-cli/setup:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
-          from: ~/static_website_deployment/build/
+          from: build/
           to: 's3://devops-circleci-app-prod-us-east-1-007756798683/'
   
   send_email:
