@@ -64,7 +64,7 @@ jobs:
       - email/send:
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
           subject: "CircleCI Pipeline Completed"
-          to: ${EMAIL_ID} #context:circleci_variables.email_id
+          to: ${EMAIL_ID}
 
 workflows:
   version: 2.1
@@ -83,3 +83,7 @@ workflows:
           context: circleci_variables
           requires:
             - deploy-production
+            filters:
+            branches:
+              only:
+                - main
