@@ -44,7 +44,7 @@ jobs:
           at: ./
       - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
   
-  send-email:
+  notify:
     executor: email/default
     steps:
       - run: echo ${EMAIL_ID} >> email_id
@@ -66,7 +66,7 @@ workflows:
             branches:
               only:
                 - main
-      - send-email:
+      - notify:
           context: circleci_variables
           requires:
             - deploy-production
