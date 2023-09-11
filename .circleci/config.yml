@@ -36,7 +36,6 @@ jobs:
   #           - build
 
   build:
-    working_directory: ~/test-ansible-app
     executor: node/default
     steps:
       - checkout
@@ -45,7 +44,7 @@ jobs:
       - run:
           command: npm run build
       - persist_to_workspace:
-          root: ~/test-ansible-app
+          root: ./
           paths:
             - package.json
             - node_modules
