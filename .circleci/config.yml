@@ -42,7 +42,8 @@ jobs:
       - node/install:
           install-yarn: true
           node-version: '16.13'
-      - run: npm run build
+      - node/run:
+          yarn-run: build
       - persist_to_workspace:
           root: ./
           paths:
