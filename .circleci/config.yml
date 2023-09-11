@@ -39,11 +39,12 @@ jobs:
   build:
     executor: node/default
     steps:
-      - node/install:
-          install-yarn: true
-          node-version: '16.13'
-      - node/run:
-          npm-run: build
+      - run: node --version
+      # - node/install:
+      #     install-yarn: true
+      #     node-version: '16.13'
+      # - node/run:
+      #     npm-run: build
       - persist_to_workspace:
           root: ./
           paths:
