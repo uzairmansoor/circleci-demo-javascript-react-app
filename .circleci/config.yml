@@ -5,6 +5,7 @@ orbs:
   aws-cli: circleci/aws-cli@4.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
+  node: circleci/node@5.1.0
 
 # working_directory: ~/static_website_deployment
 jobs:
@@ -15,15 +16,15 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      # - restore_cache:
+      #     key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Install dependencies
           command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      # - save_cache:
+      #     key: dependency-cache-{{ checksum "package.json" }}
+      #     paths:
+      #       - node_modules
       - run:
           name: Build the application
           command: npm run build
