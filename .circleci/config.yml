@@ -98,6 +98,7 @@ workflows:
           context: circleci_variables
           requires:
             - deploy-production
+            - hold
   
   # send_email:
   #   jobs:    
