@@ -5,14 +5,12 @@ orbs:
   aws-cli: circleci/aws-cli@4.1.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
-  node: circleci/node@5.1.0
 
 jobs:
 
   build:
-    # working_directory: ~/static_website_deployment
     docker:
-      - image: cimg/node:20.6.0 #circleci/node:8.9.1
+      - image: cimg/node:20.6.0
     steps:
       - checkout
       - setup_remote_docker
@@ -54,17 +52,17 @@ jobs:
   #     - image: cimg/aws:2023.08 #docker:17.05.0-ce-git
   #   steps:
   #     - attach_workspace:
-  #         at: ~/static_website_deployment
-  #     - run: aws s3 sync ~/static_website_deployment/build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
+  #         at: ./
+  #     - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
   
-  # send_email:
-  #   executor: email/default
-  #   steps:
-  #     - run: echo ${EMAIL_ID}
-  #     - email/send:
-  #         body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
-  #         subject: "CircleCI Pipeline Completed"
-  #         to: ${EMAIL_ID}
+  send_email:
+    executor: email/default
+    steps:
+      - run: echo ${EMAIL_ID}
+      - email/send:
+          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+          subject: "CircleCI Pipeline Completed"
+          to: ${EMAIL_ID}
 
 workflows:
   version: 2.1
@@ -79,14 +77,15 @@ workflows:
             branches:
               only:
                 - main
-      # - send_email:
-          # context: circleci_variables
-          # requires:
-          #   - deploy-production
-  send_email:
-    jobs:    
-      - email/send:
+      - send_email:
           context: circleci_variables
-          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
-          subject: "CircleCI Pipeline Completed"
-          to: ${EMAIL_ID}
+          requires:
+            - deploy-production
+  
+  # send_email:
+  #   jobs:    
+  #     - email/send:
+  #         context: circleci_variables
+  #         body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+  #         subject: "CircleCI Pipeline Completed"
+  #         to: ${EMAIL_ID}
