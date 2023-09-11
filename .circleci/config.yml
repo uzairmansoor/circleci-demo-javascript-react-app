@@ -5,49 +5,27 @@ orbs:
   aws-cli: circleci/aws-cli@4.1.0
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
-  node: circleci/node@5.1.0
 
 jobs:
 
-  # build:
-  #   docker:
-  #     - image: cimg/node:20.6.0
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker
-  #     - restore_cache:
-  #         key: dependency-cache-{{ checksum "package.json" }}
-  #     - run:
-  #         name: Install dependencies
-  #         command: npm install
-  #     - save_cache:
-  #         key: dependency-cache-{{ checksum "package.json" }}
-  #         paths:
-  #           - node_modules
-  #     - run:
-  #         name: Build the application
-  #         command: npm run build
-  #     - persist_to_workspace:
-  #         root: ./
-  #         paths:
-  #           - package.json
-  #           - node_modules
-  #           - src
-  #           - build
-
   build:
-    executor: node/default
+    docker:
+      - image: cimg/node:20.6.0
     steps:
       - checkout
-      - run: node --version
+      - setup_remote_docker
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
+      - run:
+          name: Install dependencies
+          command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run build
+      - run:
+          name: Build the application
+          command: npm run build
       - persist_to_workspace:
           root: ./
           paths:
