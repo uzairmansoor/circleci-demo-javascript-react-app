@@ -79,11 +79,11 @@ workflows:
             branches:
               only:
                 - main
-      - send_email:
+      # - send_email:
           # context: circleci_variables
           # requires:
           #   - deploy-production
-        - email/send:
-            body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
-            subject: "CircleCI Pipeline Completed"
-            to: ${EMAIL_ID}
+      - email/send:
+          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+          subject: "CircleCI Pipeline Completed"
+          to: ${EMAIL_ID}
