@@ -42,7 +42,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/static_website_deployment
-      - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
+      - run: aws s3 sync ~/static_website_deployment/build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
   
   send_email:
     executor: email/default
@@ -59,7 +59,7 @@ workflows:
     jobs:
       - build
       - deploy-production:
-          context: circleci_variables
+          context: aws_access_variables
           requires:
             - build
           filters:
@@ -67,5 +67,6 @@ workflows:
               only:
                 - main
       - send_email:
+          context: circleci_variables
           requires:
             - deploy-production
