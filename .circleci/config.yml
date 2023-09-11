@@ -83,7 +83,7 @@ jobs:
     steps:
       - run: echo ${email_id} >> email_id
       - email/send:
-          to: context:circleci_variables.email_id
+          to: ${email_id} #context:circleci_variables.email_id
           subject: "CircleCI Pipeline Completed"
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
 
