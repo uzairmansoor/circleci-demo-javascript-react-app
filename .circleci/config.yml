@@ -90,6 +90,7 @@ workflows:
           context: aws_access_variables
           requires:
             - deploy-test
+            - hold
           filters:
             branches:
               only:
