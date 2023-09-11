@@ -44,18 +44,18 @@ jobs:
           at: ./
       - run: aws s3 sync build/ s3://devops-circleci-prod-app-dev-us-east-1-007756798683/
   
-  notify:
+  send_email:
     executor: email/default
     steps:
-      - run: echo ${EMAIL_ID} >> email_id
+      - run: echo ${EMAIL_ID}
       - email/send:
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
           subject: "CircleCI Pipeline Completed"
-          to: email_id #context:circleci_variables.email_id
+          to: ${EMAIL_ID} #context:circleci_variables.email_id
 
 workflows:
   version: 2.1
-  build-and-deploy:
+  build-deploy-and-notify:
     jobs:
       - build
       - deploy-production:
@@ -66,7 +66,6 @@ workflows:
             branches:
               only:
                 - main
-      - notify:
-          context: circleci_variables
+      - send_email:
           requires:
             - deploy-production
