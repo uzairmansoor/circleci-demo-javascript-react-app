@@ -40,8 +40,9 @@ jobs:
     executor: node/default
     steps:
       - run: node --version
-      - run:
-          command: npm run build
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+      - run: npm run build
       - persist_to_workspace:
           root: ./
           paths:
