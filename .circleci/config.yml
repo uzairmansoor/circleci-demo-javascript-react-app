@@ -17,6 +17,13 @@ parameters:
 jobs:
 
   build:
+    parameters:
+      testBucketUri: 
+        type: string
+        default: "s3://devops-circleci-app-test-us-east-1-007756798683/"
+      prodBucketUri: 
+        type: string
+        default: "s3://devops-circleci-app-prod-us-east-1-007756798683/"
     docker:
       - image: cimg/node:20.6.0
     steps:
@@ -54,7 +61,7 @@ jobs:
       # - run: aws s3 sync build/ $testBucketUri
       - aws-s3/sync:
           from: build/
-          to: s3://devops-circleci-app-test-us-east-1-007756798683/ #$testBucketUri
+          to: << parameters.testBucketUri >> #s3://devops-circleci-app-test-us-east-1-007756798683/ #$testBucketUri
 
   deploy-production:
     executor: aws-cli/default
@@ -68,7 +75,7 @@ jobs:
       # - run: aws s3 sync build/ $prodBucketUri
       - aws-s3/sync:
           from: build/
-          to: s3://devops-circleci-app-prod-us-east-1-007756798683/ #$prodBucketUri
+          to: << parameters.prodBucketUri >> #s3://devops-circleci-app-prod-us-east-1-007756798683/ #$prodBucketUri
   
   send_email:
     executor: email/default
