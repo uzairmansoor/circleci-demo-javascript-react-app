@@ -49,7 +49,7 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: << parameters.testBucketName >>
+          to: << parameters.testBucketUri >>
 
   deploy-production:
     executor: aws-cli/default
@@ -62,7 +62,7 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: << parameters.prodBucketName >>
+          to: << parameters.prodBucketUri >>
   
   send_email:
     executor: email/default
