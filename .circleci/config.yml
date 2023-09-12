@@ -51,9 +51,10 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - aws-s3/sync:
-          from: build/
-          to: $testBucketUri #<< parameters.testBucketUri >>
+      - run: aws s3 sync build/ << parameters.testBucketUri >>
+      # - aws-s3/sync:
+      #     from: build/
+      #     to: $testBucketUri
 
   deploy-production:
     executor: aws-cli/default
@@ -64,9 +65,10 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - aws-s3/sync:
-          from: build/
-          to: $prodBucketUri #<< parameters.prodBucketUri >>
+      - run: aws s3 sync build/ << parameters.prodBucketUri >>
+      # - aws-s3/sync:
+      #     from: build/
+      #     to: $prodBucketUri
   
   send_email:
     executor: email/default
