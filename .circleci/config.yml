@@ -51,7 +51,7 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - run: aws s3 sync build/ << parameters.testBucketUri >>
+      - run: aws s3 sync build/ $testBucketUri
       # - aws-s3/sync:
       #     from: build/
       #     to: $testBucketUri
@@ -65,7 +65,7 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - run: aws s3 sync build/ << parameters.prodBucketUri >>
+      - run: aws s3 sync build/ $prodBucketUri
       # - aws-s3/sync:
       #     from: build/
       #     to: $prodBucketUri
