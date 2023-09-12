@@ -7,8 +7,8 @@ orbs:
   email: cinotify/email@1.2.1
 
 parameters:
-  testBucketName: devops-circleci-app-test-us-east-1-007756798683
-  prodBucketName: devops-circleci-app-prod-us-east-1-007756798683
+  testBucketUri: s3://devops-circleci-app-test-us-east-1-007756798683/
+  prodBucketUri: s3://devops-circleci-app-prod-us-east-1-007756798683/
 
 jobs:
 
@@ -49,7 +49,7 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: 's3://<< parameters.testBucketName >>/'
+          to: << parameters.testBucketName >>
 
   deploy-production:
     executor: aws-cli/default
@@ -62,7 +62,7 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: 's3://<< parameters.prodBucketName >>/'
+          to: << parameters.prodBucketName >>
   
   send_email:
     executor: email/default
