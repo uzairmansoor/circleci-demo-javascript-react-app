@@ -6,14 +6,6 @@ orbs:
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
 
-parameters:
-  testBucketUri: 
-    type: string
-    default: "s3://devops-circleci-app-test-us-east-1-007756798683/"
-  prodBucketUri: 
-    type: string
-    default: "s3://devops-circleci-app-prod-us-east-1-007756798683/"
-
 jobs:
 
   build:
@@ -55,10 +47,9 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      # - run: aws s3 sync build/ $testBucketUri
       - aws-s3/sync:
           from: build/
-          to: << parameters.testBucketUri >> #s3://devops-circleci-app-test-us-east-1-007756798683/ #$testBucketUri
+          to: << parameters.testBucketUri >>
 
   deploy-production:
     parameters:
@@ -73,10 +64,9 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      # - run: aws s3 sync build/ $prodBucketUri
       - aws-s3/sync:
           from: build/
-          to: << parameters.prodBucketUri >> #s3://devops-circleci-app-prod-us-east-1-007756798683/ #$prodBucketUri
+          to: << parameters.prodBucketUri >>
   
   send_email:
     executor: email/default
@@ -93,6 +83,7 @@ workflows:
     jobs:
       - build
       - deploy-test:
+          testBucketUri: s3://devops-circleci-app-test-us-east-1-007756798683/
           context: aws_access_variables
           requires:
             - build
@@ -105,6 +96,7 @@ workflows:
           requires:
             - deploy-test
       - deploy-production:
+          prodBucketUri: s3://devops-circleci-app-prod-us-east-1-007756798683/
           context: aws_access_variables
           requires:
             - deploy-test
