@@ -9,10 +9,10 @@ orbs:
 parameters:
   testBucketUri: 
     type: string
-    default: s3://devops-circleci-app-test-us-east-1-007756798683/
+    default: "s3://devops-circleci-app-test-us-east-1-007756798683/"
   prodBucketUri: 
     type: string
-    default: s3://devops-circleci-app-prod-us-east-1-007756798683/
+    default: "s3://devops-circleci-app-prod-us-east-1-007756798683/"
 
 jobs:
 
