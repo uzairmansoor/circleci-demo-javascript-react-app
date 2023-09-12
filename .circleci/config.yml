@@ -51,10 +51,10 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - run: aws s3 sync build/ $testBucketUri
-      # - aws-s3/sync:
-      #     from: build/
-      #     to: $testBucketUri
+      # - run: aws s3 sync build/ $testBucketUri
+      - aws-s3/sync:
+          from: build/
+          to: s3://devops-circleci-app-test-us-east-1-007756798683/ #$testBucketUri
 
   deploy-production:
     executor: aws-cli/default
@@ -65,10 +65,10 @@ jobs:
           aws_access_key_id: ${AWS_ACCESS_KEY_ID}
           aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           region: ${AWS_REGION_NAME}
-      - run: aws s3 sync build/ $prodBucketUri
-      # - aws-s3/sync:
-      #     from: build/
-      #     to: $prodBucketUri
+      # - run: aws s3 sync build/ $prodBucketUri
+      - aws-s3/sync:
+          from: build/
+          to: s3://devops-circleci-app-prod-us-east-1-007756798683/ #$prodBucketUri
   
   send_email:
     executor: email/default
