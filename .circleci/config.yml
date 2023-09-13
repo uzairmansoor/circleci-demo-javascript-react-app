@@ -38,7 +38,7 @@ jobs:
 
   deploy-test:
     parameters:
-      testBucketUri: 
+      testBucket: 
         type: string
         default: "devops-circleci-app-test-us-east-1-007756798683"
     executor: aws-cli/default
@@ -51,13 +51,13 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: s3://<< parameters.testBucketUri >>/
+          to: s3://<< parameters.testBucket >>/
 
   deploy-production:
     parameters:
-      prodBucketUri: 
+      prodBucket: 
         type: string
-        default: "s3://devops-circleci-app-prod-us-east-1-007756798683/"
+        default: "devops-circleci-app-prod-us-east-1-007756798683"
     executor: aws-cli/default
     steps:
       - attach_workspace:
@@ -68,7 +68,7 @@ jobs:
           region: ${AWS_REGION_NAME}
       - aws-s3/sync:
           from: build/
-          to: << parameters.prodBucketUri >>
+          to: s3://<< parameters.prodBucket >>/
   
   send_email:
     executor: email/default
@@ -85,7 +85,7 @@ workflows:
     jobs:
       - build
       - deploy-test:
-          testBucketUri: "devops-circleci-app-test-us-east-1-007756798683"
+          testBucket: "devops-circleci-app-test-us-east-1-007756798683"
           context: aws_access_variables
           requires:
             - build
@@ -98,7 +98,7 @@ workflows:
           requires:
             - deploy-test
       - deploy-production:
-          prodBucketUri: s3://devops-circleci-app-prod-us-east-1-007756798683/
+          prodBucket: "devops-circleci-app-prod-us-east-1-007756798683"
           context: aws_access_variables
           requires:
             - deploy-test
