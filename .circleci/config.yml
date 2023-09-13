@@ -85,7 +85,7 @@ workflows:
     jobs:
       - build
       - deploy-test:
-          testBucketUri: s3://devops-circleci-app-test-us-east-1-007756798683/
+          testBucketUri: "devops-circleci-app-test-us-east-1-007756798683"
           context: aws_access_variables
           requires:
             - build
