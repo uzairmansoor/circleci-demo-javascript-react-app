@@ -103,10 +103,6 @@ workflows:
           requires:
             - deploy-test
             - hold
-          filters:
-            branches:
-              only:
-                - main
       - send_email:
           context: circleci_variables
           requires:
