@@ -72,12 +72,15 @@ jobs:
   
   send_email:
     executor: email/default
+    parameters:
+      email_id: 
+        type: string
+        default: "zunair.abid@netsoltech.com"
     steps:
-      - run: echo ${EMAIL_ID}
       - email/send:
           body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
           subject: "CircleCI Pipeline Completed"
-          to: ${EMAIL_ID}
+          to: << parameters.email_id >>
 
 workflows:
   version: 2.1
@@ -101,10 +104,8 @@ workflows:
           prodBucket: "devops-circleci-app-prod-us-east-1-007756798683"
           context: aws_access_variables
           requires:
-            - deploy-test
             - hold
       - send_email:
           context: circleci_variables
           requires:
             - deploy-production
-            - hold
