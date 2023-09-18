@@ -70,15 +70,13 @@ jobs:
   
   send_email:
     executor: email/default
-    environment:
-      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.gitlab.repo_name >>
     parameters:
       email_id: 
         type: string
         default: "uzair.mansoor@netsoltech.com"
     steps:
       - email/send:
-          body: "Congratulations! The CircleCI pipeline of this repo $CIRCLE_PROJECT_REPONAME for your project has completed successfully."
+          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
           subject: "CircleCI Pipeline Completed"
           to: << parameters.email_id >>
 
