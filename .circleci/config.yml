@@ -6,8 +6,6 @@ orbs:
   aws-s3: circleci/aws-s3@4.0.0
   email: cinotify/email@1.2.1
 
-
-
 jobs:
 
   build:
@@ -72,13 +70,15 @@ jobs:
   
   send_email:
     executor: email/default
+    environment:
+      CIRCLE_PROJECT_REPONAME: << pipeline.trigger_parameters.gitlab.repo_name >>
     parameters:
       email_id: 
         type: string
-        default: "zunair.abid@netsoltech.com"
+        default: "uzair.mansoor@netsoltech.com"
     steps:
       - email/send:
-          body: "Congratulations! The CircleCI pipeline for your project has completed successfully."
+          body: "Congratulations! The CircleCI pipeline of this repo $CIRCLE_PROJECT_REPONAME for your project has completed successfully."
           subject: "CircleCI Pipeline Completed"
           to: << parameters.email_id >>
 
